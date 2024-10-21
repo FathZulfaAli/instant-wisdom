@@ -10,8 +10,9 @@ To begin exploring, simply [visit the page](https://instant-wisdom.vercel.app/).
 
 This project leverages several APIs to bring you fresh content:
 
-- **[Waifu.it](https://waifu.it/):**
-- **[ZenQuotes.io](https://zenquotes.io/):**
+- **[Waifu.it](https://waifu.it/)**
+- **[ZenQuotes.io](https://zenquotes.io/)**
+- **[Quotable Quotes](https://github.com/lukePeavey/quotable)**
 
 ## How It Works
 
