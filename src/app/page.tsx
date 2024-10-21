@@ -9,10 +9,11 @@ export default function Home() {
   const [linkProvider, setLinkProvider] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
 
+  const timestamp = new Date().getTime();
+
   useEffect(() => {
     const fetchQuote = async () => {
       try {
-        const timestamp = new Date().getTime(); // Create a unique timestamp
         const response = await fetch(`/api/quotes?timestamp=${timestamp}`, {
           cache: "no-store",
         });
@@ -31,7 +32,7 @@ export default function Home() {
     };
 
     fetchQuote();
-  }, []);
+  }, [timestamp]);
 
   return (
     <main className="flex min-h-screen px-12 items-center justify-center bg-[#232323]">
