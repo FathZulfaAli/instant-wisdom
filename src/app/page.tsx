@@ -32,7 +32,8 @@ export default function Home() {
     };
 
     fetchQuote();
-  }, [timestamp]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main className="flex min-h-screen px-12 items-center justify-center bg-[#232323]">
