@@ -1,23 +1,30 @@
 "use client";
 import { QuoteTypes } from "@/types/quotesType";
 import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 
 export default function Home() {
   const [quote, setQuote] = useState<QuoteTypes | null>(null);
   const [provider, setProvider] = useState<string>("");
   const [linkProvider, setLinkProvider] = useState<string>("");
+  const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchQuote = async () => {
       try {
-        const response = await fetch("/api/quotes");
+        const response = await fetch("/api/quotes", { cache: "no-store" });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const rawData = await response.json();
         const quotesData = rawData.data;
         setQuote(quotesData);
         setProvider(rawData.provider);
         setLinkProvider(rawData.linkProvider);
       } catch (error) {
-        alert("Error when providing a wisdom, Please refresh the page");
+        setIsError(true);
       }
     };
 
@@ -26,6 +33,19 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen px-12 items-center justify-center bg-[#232323]">
+      {isError ? (
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          closeOnClick
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+      ) : (
+        <></>
+      )}
+
       <div className="text-center">
         {quote ? (
           <div>

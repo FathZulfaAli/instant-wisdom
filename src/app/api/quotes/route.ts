@@ -48,7 +48,7 @@ export async function GET() {
     );
   } catch (error) {
     return NextResponse.json(
-      { error: "Error fetching data from Unsplash" },
+      { error: "Error fetching quotes" },
       { status: 500 }
     );
   }
