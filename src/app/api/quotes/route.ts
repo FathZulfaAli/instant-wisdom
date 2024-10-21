@@ -59,7 +59,16 @@ export async function GET() {
 
     return NextResponse.json(
       { data: response?.data, provider: provider, linkProvider: linkProvider },
-      { status: 200 }
+      {
+        status: 200,
+        headers: {
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+          "Surrogate-Control": "no-store",
+        },
+      }
     );
   } catch (error: any) {
     return NextResponse.json(
