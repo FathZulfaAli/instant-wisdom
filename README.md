@@ -4,7 +4,7 @@ Welcome to my project! This application is designed to provide you with delightf
 
 ## Getting Started
 
-To begin exploring, simply [visit the page](#). Dive into the world of anime-inspired quotes and profound wisdom with just a click!
+To begin exploring, simply [visit the page](https://instant-wisdom.vercel.app/). Dive into the world of anime-inspired quotes and profound wisdom with just a click!
 
 ## Learn More
 
