@@ -1,4 +1,3 @@
-import axios from "axios";
 import { NextResponse } from "next/server";
 import { Quotable, QuoteTypes, QuoteZen } from "@/types/quotesType";
 
@@ -21,39 +20,51 @@ export async function GET() {
       case "Waifu":
         provider = "Waifu.it";
         linkProvider = "https://waifu.it/";
-        response = await axios.get(urlWaifu, {
+        response = await fetch(urlWaifu, {
           headers: {
-            Authorization: process.env.WAIFU_IT_TOKEN,
+            Authorization: process.env.WAIFU_IT_TOKEN as string,
           },
         });
+        if (!response.ok) {
+          throw new Error(`Failed to fetch from Waifu.it: ${response.status}`);
+        }
+        response = await response.json();
         break;
 
       case "Zen":
         provider = "ZenQuotes";
         linkProvider = "https://zenquotes.io/";
-        const resZ = await axios.get(urlZen);
-        const zenQuotes: QuoteZen = resZ.data[0];
-        const readyZenQuotes: QuoteTypes = {
-          _id: 1,
-          quote: zenQuotes.q,
-          anime: "",
-          author: zenQuotes.a,
+        response = await fetch(urlZen);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch from ZenQuotes: ${response.status}`);
+        }
+        const zenQuotes: QuoteZen = (await response.json())[0];
+        response = {
+          data: {
+            _id: 1,
+            quote: zenQuotes.q,
+            anime: "",
+            author: zenQuotes.a,
+          } as QuoteTypes,
         };
-        response = { data: readyZenQuotes };
         break;
 
       case "Quotable":
         provider = "Quotable Quotes";
         linkProvider = "https://github.com/lukePeavey/quotable";
-        const resQ = await axios.get(urlQuotable);
-        const QuotableQuotes: Quotable = resQ.data[0];
-        const readyQuotableQuotes: QuoteTypes = {
-          _id: QuotableQuotes._id,
-          quote: QuotableQuotes.content,
-          anime: "",
-          author: QuotableQuotes.author,
+        response = await fetch(urlQuotable);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch from Quotable: ${response.status}`);
+        }
+        const quotableQuotes: Quotable = (await response.json())[0];
+        response = {
+          data: {
+            _id: quotableQuotes._id,
+            quote: quotableQuotes.content,
+            anime: "",
+            author: quotableQuotes.author,
+          } as QuoteTypes,
         };
-        response = { data: readyQuotableQuotes };
         break;
     }
 
