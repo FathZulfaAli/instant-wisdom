@@ -12,8 +12,10 @@ export default function Home() {
   useEffect(() => {
     const fetchQuote = async () => {
       try {
-        const response = await fetch("/api/quotes", { cache: "no-store" });
-
+        const timestamp = new Date().getTime(); // Create a unique timestamp
+        const response = await fetch(`/api/quotes?timestamp=${timestamp}`, {
+          cache: "no-store",
+        });
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
