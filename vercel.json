@@ -1,19 +1,11 @@
 {
-    "routes": [
-        {
-            "src": "/api/quotes",
-            "headers": {
-                "Cache-Control": "no-cache, no-store, must-revalidate, s-maxage=0"
-            }
-        }
-    ],
     "headers": [
         {
             "source": "/api/quotes",
             "headers": [
                 {
                     "key": "Cache-Control",
-                    "value": "no-cache, no-store, must-revalidate, s-maxage=0"
+                    "value": "no-cache, no-store, must-revalidate, s-maxage=10"
                 }
             ]
         }
