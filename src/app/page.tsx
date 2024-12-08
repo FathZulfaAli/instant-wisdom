@@ -37,6 +37,10 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    fetchQuote();
+  }, []);
+
   return (
     <main className="flex flex-col min-h-screen px-12 items-center justify-center bg-[#232323]">
       <nav className="absolute top-6 right-6">

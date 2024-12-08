@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 import { Quotable, QuoteTypes, QuoteZen } from "@/types/quotesType";
+export const fetchCache = "force-no-store";
 
 const urlWaifu = "https://waifu.it/api/v4/quote";
 const urlZen = "https://zenquotes.io/api/random/";
