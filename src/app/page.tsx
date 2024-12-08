@@ -1,5 +1,6 @@
 "use client";
 import { QuoteTypes } from "@/types/quotesType";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,15 +15,17 @@ export default function Home() {
   const fetchQuote = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`/api/quotes`, {
-        cache: "no-store",
+      const response = await axios(`/api/quotes`, {
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+        },
       });
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const rawData = await response.json();
+      const rawData = await response.data;
       const quotesData = rawData.data;
       setQuote(quotesData);
       setProvider(rawData.provider);
@@ -33,10 +36,6 @@ export default function Home() {
       toast.error("Error when providing wisdom. Please try again.");
     }
   };
-
-  useEffect(() => {
-    fetchQuote();
-  }, []);
 
   return (
     <main className="flex flex-col min-h-screen px-12 items-center justify-center bg-[#232323]">

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import axios from "axios";
 import { Quotable, QuoteTypes, QuoteZen } from "@/types/quotesType";
 
 const urlWaifu = "https://waifu.it/api/v4/quote";
@@ -20,25 +21,29 @@ export async function GET() {
       case "Waifu":
         provider = "Waifu.it";
         linkProvider = "https://waifu.it/";
-        response = await fetch(urlWaifu, {
+        console.log("Selected Provider", provider);
+
+        response = await axios.get(urlWaifu, {
           headers: {
             Authorization: process.env.WAIFU_IT_TOKEN as string,
+            "Cache-Control": "no-cache, no-store, must-revalidate",
           },
         });
-        if (!response.ok) {
-          throw new Error(`Failed to fetch from Waifu.it: ${response.status}`);
-        }
-        response = await response.json();
+
         break;
 
       case "Zen":
         provider = "ZenQuotes";
         linkProvider = "https://zenquotes.io/";
-        response = await fetch(urlZen);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch from ZenQuotes: ${response.status}`);
-        }
-        const zenQuotes: QuoteZen = (await response.json())[0];
+        console.log("Selected Provider", provider);
+
+        response = await axios.get(urlZen, {
+          headers: {
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+          },
+        });
+
+        const zenQuotes: QuoteZen = response.data[0];
         response = {
           data: {
             _id: 1,
@@ -52,11 +57,15 @@ export async function GET() {
       case "Quotable":
         provider = "Quotable Quotes";
         linkProvider = "https://github.com/lukePeavey/quotable";
-        response = await fetch(urlQuotable);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch from Quotable: ${response.status}`);
-        }
-        const quotableQuotes: Quotable = (await response.json())[0];
+        console.log("Selected Provider:", provider);
+
+        response = await axios.get(urlQuotable, {
+          headers: {
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+          },
+        });
+
+        const quotableQuotes: Quotable = response.data[0];
         response = {
           data: {
             _id: quotableQuotes._id,
@@ -82,6 +91,8 @@ export async function GET() {
       }
     );
   } catch (error: any) {
+    console.error("Error fetching quotes:", error);
+
     return NextResponse.json(
       { error: "Error fetching quotes", details: error.message || error },
       { status: 500 }
