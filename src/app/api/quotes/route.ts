@@ -8,15 +8,14 @@ const urlZen = "https://zenquotes.io/api/random/";
 const urlQuotable =
   "https://api.quotable.io/quotes/random?limit=1&tags=technology|famous-quotes|film|love|pain|sadness|self-help";
 
-const list = ["Zen", "Waifu", "Quotable"];
-const randomizer = Math.floor(Math.random() * list.length);
-const selected = list[randomizer];
-
 export async function GET() {
   try {
     let response;
     let provider;
     let linkProvider;
+
+    const list = ["Zen", "Waifu", "Quotable"];
+    const selected = list[Math.floor(Math.random() * list.length)];
 
     switch (selected) {
       case "Waifu":
@@ -89,14 +88,14 @@ export async function GET() {
           Expires: "0",
           "Surrogate-Control": "no-store",
         },
-      }
+      },
     );
   } catch (error: any) {
     console.error("Error fetching quotes:", error);
 
     return NextResponse.json(
       { error: "Error fetching quotes", details: error.message || error },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
