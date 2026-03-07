@@ -13,7 +13,7 @@ export async function GET() {
     let provider;
     let linkProvider;
 
-    const list = ["Zen", "Waifu", "Quotable"];
+    const list = ["Zen", "Quotable"];
     const selected = list[Math.floor(Math.random() * list.length)];
 
     switch (selected) {
