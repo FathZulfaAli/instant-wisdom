@@ -3,7 +3,6 @@ import axios from "axios";
 import { Quotable, QuoteTypes, QuoteZen } from "@/types/quotesType";
 export const fetchCache = "force-no-store";
 
-const urlWaifu = "https://waifu.it/api/v4/quote";
 const urlZen = "https://zenquotes.io/api/random/";
 const urlQuotable =
   "https://api.quotable.io/quotes/random?limit=1&tags=technology|famous-quotes|film|love|pain|sadness|self-help";
@@ -18,20 +17,6 @@ export async function GET() {
     const selected = list[Math.floor(Math.random() * list.length)];
 
     switch (selected) {
-      case "Waifu":
-        provider = "Waifu.it";
-        linkProvider = "https://waifu.it/";
-        console.log("Selected Provider", provider);
-
-        response = await axios.get(urlWaifu, {
-          headers: {
-            Authorization: process.env.WAIFU_IT_TOKEN as string,
-            "Cache-Control": "no-cache, no-store, must-revalidate",
-          },
-        });
-
-        break;
-
       case "Zen":
         provider = "ZenQuotes";
         linkProvider = "https://zenquotes.io/";
