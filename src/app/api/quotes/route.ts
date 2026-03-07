@@ -4,8 +4,9 @@ import { Quotable, QuoteTypes, QuoteZen } from "@/types/quotesType";
 export const fetchCache = "force-no-store";
 
 const urlZen = "https://zenquotes.io/api/random/";
-const urlQuotable =
-  "https://api.quotable.io/quotes/random?limit=1&tags=technology|famous-quotes|film|love|pain|sadness|self-help";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET() {
   try {
@@ -13,8 +14,8 @@ export async function GET() {
     let provider;
     let linkProvider;
 
-    const list = ["Zen", "Quotable"];
-    const selected = list[Math.floor(Math.random() * list.length)];
+    const list = ["Zen"];
+    const selected = list[0];
 
     switch (selected) {
       case "Zen":
@@ -35,28 +36,6 @@ export async function GET() {
             quote: zenQuotes.q,
             anime: "",
             author: zenQuotes.a,
-          } as QuoteTypes,
-        };
-        break;
-
-      case "Quotable":
-        provider = "Quotable Quotes";
-        linkProvider = "https://github.com/lukePeavey/quotable";
-        console.log("Selected Provider:", provider);
-
-        response = await axios.get(urlQuotable, {
-          headers: {
-            "Cache-Control": "no-cache, no-store, must-revalidate",
-          },
-        });
-
-        const quotableQuotes: Quotable = response.data[0];
-        response = {
-          data: {
-            _id: quotableQuotes._id,
-            quote: quotableQuotes.content,
-            anime: "",
-            author: quotableQuotes.author,
           } as QuoteTypes,
         };
         break;
